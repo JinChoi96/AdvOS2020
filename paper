@@ -1,0 +1,17 @@
+abstract
+현재 널리 사용되고 있는 real-time 멀티프로세서 scheduling 기법은 크게 두 가지의 줄기로 나눌 수 있는데, 한 가지는 global scheduling이고, 다른 한 가지는 partitioned scheduling이다. 이 두 가지 scheduling기법들은 각각 migration cost 발생과 unused  capacity의 사용불가  라는 큰 단점이 있다. 본 논문은 각 task마다 wcet-bcet의 값과 migration cost를 비교하여 migration cost가 더 큰 task가 사용할 resourse들을 미리 메모리에 할당해놓음으로써  resource 사용량이 큰 task의 migration cost를 제거한다. 본 논문은 위의 알고리즘을 통해 partitioned scheduling과 global scheduling의 장점을 합치고 단점을 상쇄시키는 알고리즘을 제안한다.
+
+ introduction
+최근 real time system에서 multiprocessor를 많이 사용한다. 이는 기존에 사용하던 single processor에서 쓰이던 scheduling 기법을 multiprocessor에 맞춰 바꿔야 함을 의미한다.현재 널리 사용되고 있는 real-time multiprocessor scheduling 기법은 크게 두 가지의 줄기로 나눌 수 있는데, 한 가지는 global scheduling이고, 다른 한 가지는 partitioned scheduling이다. 
+Global scheduling은 하나의 global queue를 사용하며  가장 높은  priority를 가진 task가 선택되어 각각의 cpu에 할당된다. 이 scheduling은 optimal scheduler가 존재하며 capacity를 보다 효율적인  사용한다는 장점이 존재하는 반면, task가 migration할 때마다 cost가 발생하는 단점이 존재한다. 그에 반해  partitioned scheduling은 각각의 cpu마다 job queue가 존재해 해당 cpu에서 어떤 task들이 돌아갈지 미리 정해 할당한다. task들을 cpu에 미리 할당함으로써 cpu 사이의 migration은 존재하지 않고 single processor에서 사용하던 scheduler를 그대로 사용할 수 있는 장점이 존재한다. 그러나 cpu에 task들을 할당하고 남은 unused capacity들을 사용하지 못하고  task을 cpu에 할당할 때 걸리는 시간은 NP-hard의 시간이 걸린다.
+이러한 단점들을 보완하기 위해 본 논문은 partitioned scheduling 과 global scheduling 의 적절한 균형점을 찾아 기존 대비 효율적인 스케쥴링 기법을 제안하고자 한다. 
+Prioir Work
+partitioned scheduling 과 global scheduling 의 단점들을 보완하기 위한 노력들은 기존부터 이루어져 왔다. 
+clustered scheduling [1] 에서는 각 task들은 processor cluster에 partitioned scheduling과 같이 정적으로 할당되고, 각 cluster에 할당된 task들은 global scheduling과 같이 동적으로 할당된다. 그리고 cluster는 멀티프로세서 플랫폼에서 차례대로 scheduling 된다. cluster의 장점과 단점
+이번 연구와 같은 문제를 해결하는 방법으로 partitioned scheduling 기반의 semi-partitioned scheduling [2] 이 존재한다. semi-partitioned scheduling에서 대부분의 task는 특정한 processor에 고정되어 있고, 몇몇개의 task만 다른 processor로 migrate 한다. task는 어떤 개별 CPU에 할당할 수 없는 상황에서만 migrate한다. 단, task는 한 CPU에서 다른 CPU로 migration 된 후, 동일한 period 내에 동일한 CPU로 반환되지 않는다. 장점과 단점
+
+System Model
+
+Algorithm Approach
+본 논문에서는 global-EDF(GEDF) 기반의 스케쥴링 기법을 제안하고자 한다. 
+GEDF 알고리즘은 task의 
