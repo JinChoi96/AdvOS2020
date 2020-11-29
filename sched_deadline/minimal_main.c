@@ -2,6 +2,11 @@
 
   Reference : https://www.kernel.org/doc/Documentation/scheduler/sched-deadline.txt
 
+  Usage : 
+  $ sudo su
+  $ gcc minimal_main.c -o main -lpthread
+  $ ./main
+
 */
 
 
