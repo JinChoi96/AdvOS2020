@@ -2,8 +2,13 @@
 #include "Task.h"
 #include "Plan.h"
 
+
+#define DATA_SIZE 2048
+
  static volatile int done;
- 
+
+
+
  void *run_deadline(void *data)
  {
 	// struct sched_attr attr;
@@ -48,7 +53,8 @@ int main (int argc, char **argv)
  	
 #ifndef HYBRID
 	// memory locking of tagged tasks
-	tasks = plan.memory_locking(tasks);
+	char data[DATA_SIZE];
+	tasks = plan.memory_locking(tasks, data, DATA_SIZE);
 	// set affinity 
 	tasks = plan.set_affinity(tasks);
 	
@@ -62,6 +68,8 @@ int main (int argc, char **argv)
 	
 #ifndef HYBRID
 	// free memory
+	char data[DATA_SIZE];
+	tasks = plan.memory_unlocking(tasks, data, DATA_SIZE);
 #endif
 
 	return 0;
