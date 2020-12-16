@@ -9,6 +9,11 @@
  #include <linux/types.h>
  #include <sys/syscall.h>
  #include <pthread.h>
+ #include <CkSpider.h>
+ #include <CkStringArray.h>
+ #include <iostream>
+ #include <fstream>
+ #include <string>
 
  #include <vector>
  #include <thread>
