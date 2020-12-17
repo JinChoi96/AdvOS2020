@@ -1,16 +1,57 @@
 #include "include.h"
+#include "dummywl.h"
 
-void msec_work(int msec){
-    unsigned int iter = 600000 * msec;
+void *dummy_work(void *data){
+    struct thread_args *args = (struct thread_args *)data;
+    unsigned int iter = 600000 * args->iter;
     int sum = 0;
+    cpu_set_t cpuset;
+
+    if(args->online){
+        CPU_SET(args->cpus,&cpuset);
+        if(!pthread_setaffinity_np(pthread_self(), sizeof(cpuset), &cpuset)){
+            std::cout<<"error in pthread_setaffinity_np\n";
+            return;
+        }
+    }
+    else{
+        for(int i = 0; i < args->cpus; i++){
+            CPU_SET(i,&cpuset);
+        }
+        if(!pthread_setaffinity_np(pthread_self(), sizeof(cpuset), &cpuset)){
+            std::cout<<"error in pthread_setaffinity_np\n";
+            return;
+        }
+    }
+
     for(unsigned i = 0; i < iter; i++){
         sum += i;
     }
     return;
 }
 
-void dummy_write(int iter){
-    for(int i = 0; i < iter; i++){
+void *dummy_write(void *data){
+    struct thread_args *args = (struct thread_args *)data;
+    cpu_set_t cpuset;
+
+    if(args->online){
+        CPU_SET(args->cpus,&cpuset);
+        if(!pthread_setaffinity_np(pthread_self(), sizeof(cpuset), &cpuset)){
+            std::cout<<"error in pthread_setaffinity_np\n";
+            return;
+        }
+    }
+    else{
+        for(int i = 0; i < args->cpus; i++){
+            CPU_SET(i,&cpuset);
+        }
+        if(!pthread_setaffinity_np(pthread_self(), sizeof(cpuset), &cpuset)){
+            std::cout<<"error in pthread_setaffinity_np\n";
+            return;
+        }
+    }
+
+    for(int i = 0; i < args->iter; i++){
         std::fstream dummyfile ("dummytext.txt");
         if (dummyfile.is_open())
         {            
@@ -25,10 +66,29 @@ void dummy_write(int iter){
     return;
 }
 
-void dummy_read(int iter){
+void *dummy_read(void *data){
+    struct thread_args *args = (struct thread_args *)data;
     std::string line;
+    cpu_set_t cpuset;
 
-    for(int i = 0; i < iter; i++){
+    if(args->online){
+        CPU_SET(args->cpus,&cpuset);
+        if(!pthread_setaffinity_np(pthread_self(), sizeof(cpuset), &cpuset)){
+            std::cout<<"error in pthread_setaffinity_np\n";
+            return;
+        }
+    }
+    else{
+        for(int i = 0; i < args->cpus; i++){
+            CPU_SET(i,&cpuset);
+        }
+        if(!pthread_setaffinity_np(pthread_self(), sizeof(cpuset), &cpuset)){
+            std::cout<<"error in pthread_setaffinity_np\n";
+            return;
+        }
+    }
+
+    for(int i = 0; i < args->iter; i++){
         std::fstream dummyfile ("dummytext.txt");
         
         if (dummyfile.is_open())
@@ -46,12 +106,34 @@ void dummy_read(int iter){
     return;
 }
 
-void crawl_webpage(void)
-{
+void *crawl_webpage(void *data){
+
+    struct thread_args *args = (struct thread_args *)data;
+
+
     CkSpider spider;
 
     CkStringArray seenDomains;
     CkStringArray seedUrls;
+
+    cpu_set_t cpuset;
+
+    if(args->online){
+        CPU_SET(args->cpus,&cpuset);
+        if(!pthread_setaffinity_np(pthread_self(), sizeof(cpuset), &cpuset)){
+            std::cout<<"error in pthread_setaffinity_np\n";
+            return;
+        }
+    }
+    else{
+        for(int i = 0; i < args->cpus; i++){
+            CPU_SET(i,&cpuset);
+        }
+        if(!pthread_setaffinity_np(pthread_self(), sizeof(cpuset), &cpuset)){
+            std::cout<<"error in pthread_setaffinity_np\n";
+            return;
+        }
+    }
 
     seenDomains.put_Unique(true);
     seedUrls.put_Unique(true);
@@ -90,9 +172,6 @@ void crawl_webpage(void)
             success = spider.CrawlNext();
             if (success == true) {
 
-                //  Display the URL we just crawled.
-                // std::cout << spider.lastUrl() << "\r\n";
-
                 //  If the last URL was retrieved from cache,
                 //  we won't wait.  Otherwise we'll wait 1 second
                 //  before fetching the next URL.
@@ -126,4 +205,40 @@ void crawl_webpage(void)
         }
 
     }
+}
+
+void *dummy_sort(void *data){
+    struct thread_args *args = (struct thread_args *)data;
+
+    int size = 1000;
+    std::random_device rd;
+    std::mt19937_64 gen(rd());
+    std::uniform_int_distribution<int> dis(0,1000);
+    int iarr[size] = {0};
+    cpu_set_t cpuset;
+
+    if(args->online){
+        CPU_SET(args->cpus,&cpuset);
+        if(!pthread_setaffinity_np(pthread_self(), sizeof(cpuset), &cpuset)){
+            std::cout<<"error in pthread_setaffinity_np\n";
+            return;
+        }
+    }
+    else{
+        for(int i = 0; i < args->cpus; i++){
+            CPU_SET(i,&cpuset);
+        }
+        if(!pthread_setaffinity_np(pthread_self(), sizeof(cpuset), &cpuset)){
+            std::cout<<"error in pthread_setaffinity_np\n";
+            return;
+        }
+    }
+
+    for(int i = 0; i < args->iter; i++){
+        for(int j = 0; j < size; j++){
+            iarr[j] = dis(gen);
+        }
+        std::sort(iarr,iarr+size);
+    }   
+    return;
 }

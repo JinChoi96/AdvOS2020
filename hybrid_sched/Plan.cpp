@@ -6,6 +6,7 @@ tasks: task vector which containts all tasks
 */
 #include "include.h"
 #include "Plan.h"
+#include "dummywl.h"
 #include <unistd.h>
 #include <sys/mman.h>
 
@@ -14,13 +15,24 @@ Plan::Plan()
 	
 }
 
-std::vector<Task> Plan::get_migration_cost(std::vector<Task> tasks)
-{
-
-}
-
 std::vector<Task> Plan::set_affinity(std::vector<Task> tasks)
 {
+	
+}
+
+std::vector<Task> Plan::get_migration_cost(std::vector<Task> tasks)
+{
+	struct thread_args args;
+	args.online = false;
+	args.iter = 1000;
+	args.cpus = 2;
+
+	pthread_t _thread[10];
+
+	if (pthread_create(&_thread[0], NULL, &dummy_work, (void *)&args) != 0) { 
+		perror("pthread_create"); 
+	} 
+	pthread_exit(NULL); 
 
 }
 

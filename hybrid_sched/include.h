@@ -14,6 +14,8 @@
  #include <iostream>
  #include <fstream>
  #include <string>
+ #include <random>
+ #include <algorithm>
 
  #include <vector>
  #include <thread>
@@ -54,4 +56,10 @@ struct sched_attr {
 	__u64 sched_runtime;
 	__u64 sched_deadline;
 	__u64 sched_period;
-    };
+};
+
+struct thread_args{
+	int iter;
+	bool online;
+	int cpus;
+};
