@@ -21,8 +21,6 @@ public:
 
     // function to run in a thread
     void thread_function();
-
-private:
     int sched_setattr(pid_t pid, const struct sched_attr *attr,
 		  unsigned int flags);
     int sched_getattr(pid_t pid, struct sched_attr *attr,
