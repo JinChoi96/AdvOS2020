@@ -35,7 +35,8 @@ Task::Task(struct sched_attr attr_input)
 // this function is used to set the attribute of 
 // SCHED_DEADLINE
 int Task::sched_setattr(pid_t pid,
-		  		  unsigned int flags)
+				const struct sched_attr *attr,
+				unsigned int flags)
  {
 	 
 	return syscall(__NR_sched_setattr, pid, attr, flags);

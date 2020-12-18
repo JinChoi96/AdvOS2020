@@ -1,7 +1,13 @@
 #include "include.h"
 #include "dummywl.h"
+#include "Task.h"
 
-void *dummy_work(void *data){
+unsigned int flags = 0;
+
+void *dummy_work(void *data, Task* task){
+    // Sets the scheduling policy
+    Task::sched_setattr(0, &task.attr, flags);
+
     struct thread_args *args = (struct thread_args *)data;
     unsigned int iter = 600000 * args->iter;
     int sum = 0;
@@ -30,7 +36,10 @@ void *dummy_work(void *data){
     return;
 }
 
-void *dummy_write(void *data){
+void *dummy_write(void *data, Task* task){
+    // Sets the scheduling policy
+    Task::sched_setattr(0, &task.attr, flags);
+
     struct thread_args *args = (struct thread_args *)data;
     cpu_set_t cpuset;
 
@@ -66,7 +75,10 @@ void *dummy_write(void *data){
     return;
 }
 
-void *dummy_read(void *data){
+void *dummy_read(void *data, Task* task){
+    // Sets the scheduling policy
+    Task::sched_setattr(0, &task.attr, flags);
+
     struct thread_args *args = (struct thread_args *)data;
     std::string line;
     cpu_set_t cpuset;
@@ -106,7 +118,9 @@ void *dummy_read(void *data){
     return;
 }
 
-void *crawl_webpage(void *data){
+void *crawl_webpage(void *data, Task* task){
+    // Sets the scheduling policy
+    Task::sched_setattr(0, &task.attr, flags);
 
     struct thread_args *args = (struct thread_args *)data;
 
@@ -207,7 +221,10 @@ void *crawl_webpage(void *data){
     }
 }
 
-void *dummy_sort(void *data){
+void *dummy_sort(void *data, Task* task){
+    // Sets the scheduling policy
+    Task::sched_setattr(0, &task.attr, flags);
+
     struct thread_args *args = (struct thread_args *)data;
 
     int size = 1000;
