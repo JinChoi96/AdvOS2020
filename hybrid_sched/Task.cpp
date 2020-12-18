@@ -49,3 +49,28 @@ int Task::sched_setattr(pid_t pid,
 	return syscall(__NR_sched_getattr, pid, attr, size, flags);
  }
 
+void set_pid(pid_t pid_input){
+	pid = pid_input;
+	return;
+}
+
+void set_tag(int cpu){
+	tag = cpu;
+	return;
+}
+
+void set_migration_cost(long migration_cost_input){
+	migratino_cost = migration_cost_input;
+}
+
+pid_t get_pid(){
+	return pid;
+}
+
+int get_tag(){
+	return tag;
+}
+
+int get_migration_cost(){
+	return migration_cost;
+}
