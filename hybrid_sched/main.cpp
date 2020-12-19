@@ -9,14 +9,14 @@
 
 #define ITERATION 10000
 #define DATA_SIZE 2048
-#define NUM_TASKS 6
+#define NUM_TASKS 5
 
 int HYBRID = 1;
 
-std::array<int, NUM_TASKS> runtimes = {10, 10, 10, 10, 10, 10};
-std::array<int, NUM_TASKS> deadlines = {30, 30, 30, 30, 30, 30};
-pthread_t t1, t2, t3, t4, t5, t6;
-std::array<pthread_t, NUM_TASKS> threads = {t1, t2, t3, t4, t5, t6};
+std::array<int, NUM_TASKS> runtimes = {10, 10, 10, 10, 10};
+std::array<int, NUM_TASKS> deadlines = {30, 30, 30, 30, 30};
+pthread_t t1, t2, t3, t4, t5;
+std::array<pthread_t, NUM_TASKS> threads = {t1, t2, t3, t4, t5};
 
 
 void initialize(std::vector<Task> tasks);
