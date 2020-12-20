@@ -13,7 +13,7 @@ void *dummy_work(void *data){
             exit(-1);
         }
     }
-    int iter = 10000;
+    int iter = 10000000;
     int sum = 0;
     
     for(unsigned i = 0; i < iter; i++){
@@ -71,7 +71,7 @@ void *dummy_read(void *data){
         if (dummyfile.is_open())
         {        
             while(std::getline(dummyfile,line)){
-                std::cout << line << '\n';
+                //std::cout << line << '\n';
             }      
             dummyfile.close();
         }
