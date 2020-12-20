@@ -34,19 +34,11 @@ int main (int argc, char **argv)
 	// read_tasks(&tasks);
  	
 if(HYBRID){
-	std::string line,text;
-   	std::ifstream in("dummytext.txt");
-   	while(std::getline(in, line))
-   	{
-    	   text += line + "\n";
-   	}
 	
-	 const char* lock_data = text.c_str();
-
 	// memory locking of tagged tasks
 	for (int i = 0; i < NUM_TASKS; i++){
 		if(tags[i] != 0){
-			tasks = plan.memory_locking(tasks[i], lock_data, DATA_SIZE);
+			tasks = plan.memory_locking(&tasks[i], DATA_SIZE);
 		}
 	}
 	
