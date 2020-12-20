@@ -34,22 +34,19 @@ int main (int argc, char **argv)
 	// read_tasks(&tasks);
  	
 if(HYBRID){
-	char data[DATA_SIZE];
 	std::string line,text;
    	std::ifstream in("dummytext.txt");
    	while(std::getline(in, line))
    	{
     	   text += line + "\n";
    	}
-
-	// TODO : change variable name of 'data'
-   	// const char* data = text.c_str();
+	
+	 const char* lock_data = text.c_str();
 
 	// memory locking of tagged tasks
 	for (int i = 0; i < NUM_TASKS; i++){
 		if(tags[i] != 0){
-			// TODO : change parameter of memory_locking()
-			// tasks = plan.memory_locking(tasks[i], data, DATA_SIZE);
+			tasks = plan.memory_locking(tasks[i], lock_data, DATA_SIZE);
 		}
 	}
 	
@@ -79,13 +76,6 @@ if(HYBRID){
 	double result = (double)(end-start)*100;
 	std::cout << result << "(ms) elapsed" << std::endl;
 
-	// uninitialize
-
-if(HYBRID){
-	// free memory
-	char data[DATA_SIZE];
-	tasks = plan.memory_unlocking(&tasks, data, DATA_SIZE);
-}
 
 	return 0;
 }
