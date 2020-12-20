@@ -1,14 +1,4 @@
-/*
-
-<argument>
-tasks: task vector which containts all tasks 
-
-*/
-#include "include.h"
 #include "Plan.h"
-#include "dummywl.h"
-#include <unistd.h>
-#include <sys/mman.h>
 
 Plan::Plan()
 {

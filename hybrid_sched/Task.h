@@ -1,5 +1,7 @@
 #include "include.h"
 
+#ifndef __TASK_H__
+#define __TASK_H__
 class Task
 {
 
@@ -11,7 +13,7 @@ private:
     std::thread task;
     pid_t pid;
     int tag;
-    long migration_cost;
+    // long migration_cost;
 
 
 public:
@@ -27,10 +29,11 @@ public:
 		  unsigned int size, unsigned int flags);
     void set_pid(pid_t pid_input);
     void set_tag(int cpu);
-    void set_migration_cost(long migration_cost_input);
+    // void set_migration_cost(long migration_cost_input);
 
     pid_t get_pid();
     int get_tag();
-    int get_migration_cost();
+    // int get_migration_cost();
 
 };
+#endif

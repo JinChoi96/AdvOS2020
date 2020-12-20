@@ -1,11 +1,3 @@
-/*
-
-<argument>
-tasks: task vector which containts all tasks 
-
-*/
-
-#include "include.h"
 #include "Task.h"
 
 Task::Task()
@@ -28,7 +20,7 @@ Task::Task(struct sched_attr attr_input)
 
 	pid = 0;
 	tag = 0;
-	migration_cost = 0;
+	// migration_cost = 0;
 }
 
 // when the thread is made and starts to actually running, 
@@ -50,28 +42,28 @@ int Task::sched_setattr(pid_t pid,
 	return syscall(__NR_sched_getattr, pid, attr, size, flags);
  }
 
-void set_pid(pid_t pid_input){
+void Task::set_pid(pid_t pid_input){
 	pid = pid_input;
 	return;
 }
 
-void set_tag(int cpu){
+void Task::set_tag(int cpu){
 	tag = cpu;
 	return;
 }
 
-void set_migration_cost(long migration_cost_input){
-	migratino_cost = migration_cost_input;
-}
+// void Task::set_migration_cost(long migration_cost_input){
+// 	migration_cost = migration_cost_input;
+// }
 
-pid_t get_pid(){
+pid_t Task::get_pid(){
 	return pid;
 }
 
-int get_tag(){
+int Task::get_tag(){
 	return tag;
 }
 
-int get_migration_cost(){
-	return migration_cost;
-}
+// int Task::get_migration_cost(){
+// 	return migration_cost;
+// }

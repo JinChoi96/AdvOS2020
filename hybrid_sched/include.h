@@ -1,4 +1,7 @@
+
+#ifndef _GNU_SOURCE
 #define _GNU_SOURCE
+#endif
  #include <unistd.h>
  #include <stdio.h>
  #include <stdlib.h>
@@ -9,8 +12,6 @@
  #include <linux/types.h>
  #include <sys/syscall.h>
  #include <pthread.h>
- #include <CkSpider.h>
- #include <CkStringArray.h>
  #include <iostream>
  #include <fstream>
  #include <string>
@@ -40,6 +41,9 @@
  #define __NR_sched_getattr		381
  #endif
 
+
+#ifndef __SCHED_ATTR__
+#define __SCHED_ATTR__
 struct sched_attr {
 	__u32 size;
 
@@ -57,9 +61,14 @@ struct sched_attr {
 	__u64 sched_deadline;
 	__u64 sched_period;
 };
+#endif
 
+
+#ifndef __THREAD_ARGS__
+#define __THREAD_ARGS__
 struct thread_args{
 	int iter;
 	bool online;
 	int cpus;
 };
+#endif

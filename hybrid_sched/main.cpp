@@ -42,7 +42,7 @@ if(HYBRID){
 	// memory locking of tagged tasks
 	for (int i = 0; i < NUM_TASKS; i++){
 		if(tags[i] != 0){
-			tasks = plan.memory_locking(tasks[i], data, DATA_SIZE);
+			// tasks = plan.memory_locking(tasks[i], data, DATA_SIZE);
 		}
 	}
 	
