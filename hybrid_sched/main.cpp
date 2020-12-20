@@ -19,9 +19,9 @@ pthread_t t1, t2, t3, t4;
 std::array<pthread_t, NUM_TASKS> threads = {t1, t2, t3, t4};
 
 
-void initialize(std::vector<Task> tasks, std::string tags);
-void parse_tags(std::string tags, std::vector<Task> tasks);
-void read_tasks(std::vector<Task> tasks);
+void initialize(std::vector<Task> *tasks, std::string tags);
+void parse_tags(std::string tags, std::vector<Task> *tasks);
+void read_tasks(std::vector<Task> *tasks);
 
 int main (int argc, char **argv)
 {
@@ -29,8 +29,8 @@ int main (int argc, char **argv)
 	Plan plan;
  	// create tasks and set parameters
 	std::string tags = "example_tasks";
- 	initialize(tasks, tags);
-	read_tasks(tasks);
+ 	initialize(&tasks, tags);
+	read_tasks(&tasks);
  	
 if(HYBRID){
 	char data[DATA_SIZE];
@@ -82,7 +82,7 @@ if(HYBRID){
 	return 0;
 }
 
-void initialize(std::vector<Task> tasks, std::string tags)
+void initialize(std::vector<Task> *tasks, std::string tags)
 {
 	struct sched_attr attr;
 
@@ -96,7 +96,7 @@ void initialize(std::vector<Task> tasks, std::string tags)
 		attr.sched_runtime = runtimes[i] * 1000 * 1000;
 		attr.sched_period = attr.sched_deadline = deadlines[i] * 1000 * 1000;
 
-		tasks.push_back(Task(attr));
+		(*tasks).push_back(Task(attr));
 	}
 	// parse each task's tag and set tag to the task
 	parse_tags(tags, tasks);
@@ -104,7 +104,7 @@ void initialize(std::vector<Task> tasks, std::string tags)
 	return;
 }
 
-void parse_tags(std::string tags, std::vector<Task> tasks){
+void parse_tags(std::string tags, std::vector<Task> *tasks){
     std::ifstream in(tags);
 	std::string line;
 	int thread_id;
@@ -115,20 +115,20 @@ void parse_tags(std::string tags, std::vector<Task> tasks){
 			thread_id = std::stoi(line);
 			
 		}else{
-			tasks[thread_id].set_tag(std::stoi(line));
+			(*tasks)[thread_id].set_tag(std::stoi(line));
 		}
 		i++;	
 	}
 	return;
 }
 
-void read_tasks(std::vector<Task> tasks){
+void read_tasks(std::vector<Task> *tasks){
 	struct sched_attr attr;
 	int tag;
 	for(int i = 0; i< NUM_TASKS; i++){
 		std::cout << "task " << i << std::endl;
-		attr = tasks[i].get_attr();
-		tag = tasks[i].get_tag();
+		attr = (*tasks)[i].get_attr();
+		tag = (*tasks)[i].get_tag();
 		std::cout<< attr.sched_runtime << std::endl;
 		std::cout<< tag << std::endl;
 	}
