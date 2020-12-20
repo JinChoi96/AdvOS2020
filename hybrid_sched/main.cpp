@@ -13,8 +13,8 @@
 
 int HYBRID = 1;
 
-std::array<int, NUM_TASKS> runtimes = {10, 10, 10, 10};
-std::array<int, NUM_TASKS> deadlines = {30, 30, 30, 30};
+std::array<__u64, NUM_TASKS> runtimes = {10, 10, 10, 10};
+std::array<__u64, NUM_TASKS> deadlines = {30, 30, 30, 30};
 pthread_t t1, t2, t3, t4;
 std::array<pthread_t, NUM_TASKS> threads = {t1, t2, t3, t4};
 
@@ -28,9 +28,9 @@ int main (int argc, char **argv)
 	std::vector<Task> tasks;
 	Plan plan;
  	// create tasks and set parameters
-	std::string tags = "example_tasks";
+	std::string tags = "task.txt";
  	initialize(&tasks, tags);
-	read_tasks(&tasks);
+	// read_tasks(&tasks);
  	
 if(HYBRID){
 	char data[DATA_SIZE];
@@ -130,6 +130,7 @@ void read_tasks(std::vector<Task> *tasks){
 		attr = (*tasks)[i].get_attr();
 		tag = (*tasks)[i].get_tag();
 		std::cout<< attr.sched_runtime << std::endl;
+		std::cout<< attr.sched_period << std::endl;
 		std::cout<< tag << std::endl;
 	}
 }
