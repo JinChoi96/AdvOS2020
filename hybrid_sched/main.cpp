@@ -9,14 +9,14 @@
 
 #define ITERATION 10000
 #define DATA_SIZE 2048
-#define NUM_TASKS 5
+#define NUM_TASKS 4
 
 int HYBRID = 1;
 
-std::array<int, NUM_TASKS> runtimes = {10, 10, 10, 10, 10};
-std::array<int, NUM_TASKS> deadlines = {30, 30, 30, 30, 30};
-pthread_t t1, t2, t3, t4, t5;
-std::array<pthread_t, NUM_TASKS> threads = {t1, t2, t3, t4, t5};
+std::array<int, NUM_TASKS> runtimes = {10, 10, 10, 10};
+std::array<int, NUM_TASKS> deadlines = {30, 30, 30, 30};
+pthread_t t1, t2, t3, t4;
+std::array<pthread_t, NUM_TASKS> threads = {t1, t2, t3, t4};
 
 
 void initialize(std::vector<Task> tasks, std::string tags);
@@ -32,13 +32,6 @@ int main (int argc, char **argv)
  	
 if(HYBRID){
 	char data[DATA_SIZE];
-	std::string line,text;
-   	std::ifstream in("dummytext.txt");
-   	while(std::getline(in, line))
-   	{
-    	   text += line + "\n";
-   	}
-   	const char* data = text.c_str();
 	// memory locking of tagged tasks
 	for (int i = 0; i < NUM_TASKS; i++){
 		if(tags[i] != 0){
@@ -53,12 +46,17 @@ if(HYBRID){
 	// check current time
 	
 	// main 
-	for(int i = 0; i < NUM_TASKS ; i ++){
-		pthread_create(&(threads[i]), NULL, tasks[i].thread_function(), NULL);
-	}
+	void *ptr0, *ptr1, *ptr2, *ptr3;
+	ptr0 = &tasks[0]; ptr1 = &tasks[1]; ptr2 = &tasks[2]; ptr3 = &tasks[3];
+
+	pthread_create(&(threads[0]), NULL, dummy_work, ptr0);
+	pthread_create(&(threads[1]), NULL, dummy_write, ptr1);
+	pthread_create(&(threads[2]), NULL, dummy_read, ptr2);
+	pthread_create(&(threads[3]), NULL, dummy_sort, ptr3);
+
 	
 	for(int i = 0 ; i < NUM_TASKS ; i ++){
-		threads[i].join();
+		pthread_join(&threads[i], NULL);
 	}
 	// uninitialize
 	
