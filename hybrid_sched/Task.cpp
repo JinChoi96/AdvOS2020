@@ -56,6 +56,10 @@ void Task::set_tag(int cpu){
 // 	migration_cost = migration_cost_input;
 // }
 
+struct sched_attr Task::get_attr(){
+	return attr;
+}
+
 pid_t Task::get_pid(){
 	return pid;
 }

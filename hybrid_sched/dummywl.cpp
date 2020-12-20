@@ -1,34 +1,40 @@
 #include "dummywl.h"
 
 void *dummy_work(void *data){
-    struct thread_args *args = (struct thread_args *)data;
-    unsigned int iter = 600000 * args->iter;
-    int sum = 0;
-    int s;
-    cpu_set_t cpuset;
+    Task *task = (Task*)data;
+    struct sched_attr attr = task->get_attr();
+    int ret;
+    unsigned int flags = 0;
 
-    CPU_SET(args->cpus,&cpuset);
-    s = pthread_setaffinity_np(pthread_self(), sizeof(cpuset), &cpuset);
-    if(s != 0){
-        std::cout<<"error in pthread_setaffinity_np\n";
+    ret = task->sched_setattr(0, &attr, flags);
+    if(ret < 0){
+        perror("sched_setattr");
+        exit(-1);
     }
 
+    int iter = 10000;
+    int sum = 0;
+    
     for(unsigned i = 0; i < iter; i++){
         sum += i;
     }
 }
 
 void *dummy_write(void *data){
-    struct thread_args *args = (struct thread_args *)data;
-    int s;
-    cpu_set_t cpuset;
+    Task *task = (Task*)data;
+    struct sched_attr attr = task->get_attr();
+    int ret;
+    unsigned int flags = 0;
 
-    s = pthread_setaffinity_np(pthread_self(), sizeof(cpuset), &cpuset);
-    if(s != 0){
-        std::cout<<"error in pthread_setaffinity_np\n";
+    ret = task->sched_setattr(0, &attr, flags);
+    if(ret < 0){
+        perror("sched_setattr");
+        exit(-1);
     }
 
-    for(int i = 0; i < args->iter; i++){
+    int iter = 10000;
+
+    for(int i = 0; i < iter; i++){
         std::fstream dummyfile ("dummytext.txt");
         if (dummyfile.is_open())
         {            
@@ -42,17 +48,21 @@ void *dummy_write(void *data){
 }
 
 void *dummy_read(void *data){
-    struct thread_args *args = (struct thread_args *)data;
-    std::string line;
-    int s;
-    cpu_set_t cpuset;
+    Task *task = (Task*)data;
+    struct sched_attr attr = task->get_attr();
+    int ret;
+    unsigned int flags = 0;
 
-    s = pthread_setaffinity_np(pthread_self(), sizeof(cpuset), &cpuset);
-    if(s != 0){
-        std::cout<<"error in pthread_setaffinity_np\n";
+    ret = task->sched_setattr(0, &attr, flags);
+    if(ret < 0){
+        perror("sched_setattr");
+        exit(-1);
     }
 
-    for(int i = 0; i < args->iter; i++){
+    std::string line;
+    int iter = 10000;
+
+    for(int i = 0; i < iter; i++){
         std::fstream dummyfile ("dummytext.txt");
         
         if (dummyfile.is_open())
@@ -69,22 +79,26 @@ void *dummy_read(void *data){
 }
 
 void *dummy_sort(void *data){
-    struct thread_args *args = (struct thread_args *)data;
+    Task *task = (Task*)data;
+    struct sched_attr attr = task->get_attr();
+    int ret;
+    unsigned int flags = 0;
+
+    ret = task->sched_setattr(0, &attr, flags);
+    if(ret < 0){
+        perror("sched_setattr");
+        exit(-1);
+    }
+
+    int iter = 10000;
 
     int size = 1000;
     std::random_device rd;
     std::mt19937_64 gen(rd());
     std::uniform_int_distribution<int> dis(0,1000);
     int iarr[size] = {0};
-    int s;
-    cpu_set_t cpuset;
 
-    s = pthread_setaffinity_np(pthread_self(), sizeof(cpuset), &cpuset);
-    if(s != 0){
-        std::cout<<"error in pthread_setaffinity_np\n";
-    }
-
-    for(int i = 0; i < args->iter; i++){
+    for(int i = 0; i < iter; i++){
         for(int j = 0; j < size; j++){
             iarr[j] = dis(gen);
         }

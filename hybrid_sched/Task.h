@@ -31,6 +31,7 @@ public:
     void set_tag(int cpu);
     // void set_migration_cost(long migration_cost_input);
 
+    struct sched_attr get_attr();
     pid_t get_pid();
     int get_tag();
     // int get_migration_cost();
