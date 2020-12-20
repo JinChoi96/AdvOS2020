@@ -24,6 +24,7 @@
  #define gettid() syscall(__NR_gettid)
 
  #define SCHED_DEADLINE	6
+ #define HYBRID 1
 
  /* XXX use the proper syscall numbers */
  #ifdef __x86_64__

@@ -1,17 +1,18 @@
 #include "dummywl.h"
 
 void *dummy_work(void *data){
-    Task *task = (Task*)data;
-    struct sched_attr attr = task->get_attr();
-    int ret;
-    unsigned int flags = 0;
+    if(HYBRID){
+        Task *task = (Task*)data;
+        struct sched_attr attr = task->get_attr();
+        int ret;
+        unsigned int flags = 0;
 
-    ret = task->sched_setattr(0, &attr, flags);
-    if(ret < 0){
-        perror("sched_setattr");
-        exit(-1);
+        ret = task->sched_setattr(0, &attr, flags);
+        if(ret < 0){
+            perror("sched_setattr");
+            exit(-1);
+        }
     }
-
     int iter = 10000;
     int sum = 0;
     
@@ -21,17 +22,18 @@ void *dummy_work(void *data){
 }
 
 void *dummy_write(void *data){
-    Task *task = (Task*)data;
-    struct sched_attr attr = task->get_attr();
-    int ret;
-    unsigned int flags = 0;
+    if(HYBRID){
+        Task *task = (Task*)data;
+        struct sched_attr attr = task->get_attr();
+        int ret;
+        unsigned int flags = 0;
 
-    ret = task->sched_setattr(0, &attr, flags);
-    if(ret < 0){
-        perror("sched_setattr");
-        exit(-1);
+        ret = task->sched_setattr(0, &attr, flags);
+        if(ret < 0){
+            perror("sched_setattr");
+            exit(-1);
+        }
     }
-
     int iter = 10000;
 
     for(int i = 0; i < iter; i++){
@@ -48,17 +50,18 @@ void *dummy_write(void *data){
 }
 
 void *dummy_read(void *data){
-    Task *task = (Task*)data;
-    struct sched_attr attr = task->get_attr();
-    int ret;
-    unsigned int flags = 0;
+    if(HYBRID){
+        Task *task = (Task*)data;
+        struct sched_attr attr = task->get_attr();
+        int ret;
+        unsigned int flags = 0;
 
-    ret = task->sched_setattr(0, &attr, flags);
-    if(ret < 0){
-        perror("sched_setattr");
-        exit(-1);
+        ret = task->sched_setattr(0, &attr, flags);
+        if(ret < 0){
+            perror("sched_setattr");
+            exit(-1);
+        }
     }
-
     std::string line;
     int iter = 10000;
 
@@ -79,17 +82,18 @@ void *dummy_read(void *data){
 }
 
 void *dummy_sort(void *data){
-    Task *task = (Task*)data;
-    struct sched_attr attr = task->get_attr();
-    int ret;
-    unsigned int flags = 0;
+    if(HYBRID){
+        Task *task = (Task*)data;
+        struct sched_attr attr = task->get_attr();
+        int ret;
+        unsigned int flags = 0;
 
-    ret = task->sched_setattr(0, &attr, flags);
-    if(ret < 0){
-        perror("sched_setattr");
-        exit(-1);
+        ret = task->sched_setattr(0, &attr, flags);
+        if(ret < 0){
+            perror("sched_setattr");
+            exit(-1);
+        }
     }
-
     int iter = 10000;
 
     int size = 1000;
