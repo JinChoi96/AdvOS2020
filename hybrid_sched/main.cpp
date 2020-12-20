@@ -21,6 +21,7 @@ std::array<pthread_t, NUM_TASKS> threads = {t1, t2, t3, t4};
 
 void initialize(std::vector<Task> tasks, std::string tags);
 void parse_tags(std::string tags, std::vector<Task> tasks);
+void read_tasks(std::vector<Task> tasks);
 
 int main (int argc, char **argv)
 {
@@ -29,6 +30,7 @@ int main (int argc, char **argv)
  	// create tasks and set parameters
 	std::string tags = "example_tasks";
  	initialize(tasks, tags);
+	read_tasks(tasks);
  	
 if(HYBRID){
 	char data[DATA_SIZE];
@@ -118,4 +120,16 @@ void parse_tags(std::string tags, std::vector<Task> tasks){
 		i++;	
 	}
 	return;
+}
+
+void read_tasks(std::vector<Task> tasks){
+	struct sched_attr attr;
+	int tag;
+	for(int i = 0; i< NUM_TASKS; i++){
+		std::cout << "task " << i << std::endl;
+		attr = tasks[i].get_attr();
+		tag = tasks[i].get_tag();
+		std::cout<< attr.sched_runtime << std::endl;
+		std::cout<< tag << std::endl;
+	}
 }
