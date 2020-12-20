@@ -41,7 +41,7 @@ if(HYBRID){
 	}
 	
 	// set affinity 
-	tasks = plan.set_affinity(&tasks);
+	// tasks = plan.set_affinity(&tasks);
 }
 	
 	// check current time
@@ -54,17 +54,17 @@ if(HYBRID){
 	start = time(NULL);
 
 	pthread_create(&(threads[0]), NULL, dummy_work, ptr0);
-	// pthread_create(&(threads[1]), NULL, dummy_write, ptr1);
-	// pthread_create(&(threads[2]), NULL, dummy_read, ptr2);
-	// pthread_create(&(threads[3]), NULL, dummy_sort, ptr3);
+	pthread_create(&(threads[1]), NULL, dummy_write, ptr1);
+	pthread_create(&(threads[2]), NULL, dummy_read, ptr2);
+	pthread_create(&(threads[3]), NULL, dummy_sort, ptr3);
 
 	for(int i = 0 ; i < NUM_TASKS ; i ++){
 		pthread_join(threads[i], NULL);
 	}
 
 	end = time(NULL);
-	double result = (double)(end-start)*100;
-	std::cout << result << "(ms) elapsed" << std::endl;
+	// double result = (double)(end-start)*100;
+	// std::cout << result << "(ms) elapsed" << std::endl;
 
 
 	return 0;
