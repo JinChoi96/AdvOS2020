@@ -67,7 +67,7 @@ if(HYBRID){
 
 	
 	for(int i = 0 ; i < NUM_TASKS ; i ++){
-		pthread_join(&threads[i], NULL);
+		pthread_join(threads[i], NULL);
 	}
 	// uninitialize
 	
