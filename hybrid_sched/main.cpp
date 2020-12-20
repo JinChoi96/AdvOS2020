@@ -53,7 +53,7 @@ if(HYBRID){
 	}
 	
 	// set affinity 
-	tasks = plan.set_affinity(tasks);
+	tasks = plan.set_affinity(&tasks);
 }
 	
 	// check current time
@@ -76,7 +76,7 @@ if(HYBRID){
 if(HYBRID){
 	// free memory
 	char data[DATA_SIZE];
-	tasks = plan.memory_unlocking(tasks, data, DATA_SIZE);
+	tasks = plan.memory_unlocking(&tasks, data, DATA_SIZE);
 }
 
 	return 0;
