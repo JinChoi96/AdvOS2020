@@ -25,7 +25,7 @@ void *dummy_work(void *data){
     }
     auto end = std::chrono::high_resolution_clock::now();
     std::chrono::milliseconds elapsedNS = std::chrono::duration_cast<std::chrono::milliseconds>(end-start);    
-    std::cout<<"time: "<< elapsedNS.count()<<" ms\n";    
+    std::cout<<"time 1: "<< elapsedNS.count()<<" ms\n";    
 
 }
 
@@ -58,7 +58,7 @@ void *dummy_write(void *data){
     }
     auto end = std::chrono::high_resolution_clock::now();   
     std::chrono::milliseconds elapsedNS = std::chrono::duration_cast<std::chrono::milliseconds>(end-start);    
-    std::cout<<"time: "<< elapsedNS.count()<<" ms\n"; 
+    std::cout<<"time 2: "<< elapsedNS.count()<<" ms\n"; 
 
 }
 
@@ -94,7 +94,7 @@ void *dummy_read(void *data){
     }
     auto end = std::chrono::high_resolution_clock::now();   
     std::chrono::milliseconds elapsedNS = std::chrono::duration_cast<std::chrono::milliseconds>(end-start);    
-    std::cout<<"time: "<< elapsedNS.count()<<" ms\n"; 
+    std::cout<<"time 3: "<< elapsedNS.count()<<" ms\n"; 
 
 }
 
@@ -127,6 +127,6 @@ void *dummy_sort(void *data){
     }  
     auto end = std::chrono::high_resolution_clock::now();    
     std::chrono::milliseconds elapsedNS = std::chrono::duration_cast<std::chrono::milliseconds>(end-start);    
-    std::cout<<"time: "<< elapsedNS.count()<<" ms\n";
+    std::cout<<"time 4: "<< elapsedNS.count()<<" ms\n";
  
 }

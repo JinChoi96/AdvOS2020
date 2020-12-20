@@ -30,7 +30,6 @@ int main (int argc, char **argv)
  	// create tasks and set parameters
 	std::string tags = "task.txt";
  	initialize(&tasks, tags);
-	// read_tasks(&tasks);
  	
 if(HYBRID){	
 	// memory locking of tagged tasks
@@ -39,9 +38,6 @@ if(HYBRID){
 			plan.memory_locking(data, DATA_SIZE);
 		}
 	}
-	
-	// set affinity 
-	// tasks = plan.set_affinity(&tasks);
 }
 	
 	// check current time
@@ -51,22 +47,9 @@ if(HYBRID){
 	void *ptr0, *ptr1, *ptr2, *ptr3;
 	ptr0 = &tasks[0]; ptr1 = &tasks[1]; ptr2 = &tasks[2]; ptr3 = &tasks[3];
 
-	start = time(NULL);
-
-	// pthread_create(&(threads[0]), NULL, dummy_work, ptr0);
-	// pthread_create(&(threads[1]), NULL, dummy_write, ptr1);
-	// pthread_create(&(threads[2]), NULL, dummy_read, ptr2);
 	pthread_create(&(threads[3]), NULL, dummy_sort, ptr3);
-
-	// for(int i = 0 ; i < NUM_TASKS ; i ++){
-		pthread_join(threads[3], NULL);
-	// }
-
-	end = time(NULL);
-	// double result = (double)(end-start)*100;
-	// std::cout << result << "(ms) elapsed" << std::endl;
-
-
+	pthread_join(threads[3], NULL);
+	
 	return 0;
 }
 
@@ -98,7 +81,6 @@ void parse_tags(std::string tags, std::vector<Task> *tasks){
 	int thread_id;
 	int i = 0;
 	while(getline(in, line)){
-		// std::cout << line << std::endl;
 		if(i % 2 == 0){
 			thread_id = std::stoi(line);
 			

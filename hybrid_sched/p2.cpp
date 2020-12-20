@@ -38,34 +38,16 @@ if(HYBRID){
 		if(tasks[i].get_tag() != 0){
 			plan.memory_locking(data, DATA_SIZE);
 		}
-	}
-	
-	// set affinity 
-	// tasks = plan.set_affinity(&tasks);
+	}	
 }
 	
-	// check current time
-	time_t start, end;
-
 	// main 
 	void *ptr0, *ptr1, *ptr2, *ptr3;
 	ptr0 = &tasks[0]; ptr1 = &tasks[1]; ptr2 = &tasks[2]; ptr3 = &tasks[3];
 
-	start = time(NULL);
-
-	// pthread_create(&(threads[0]), NULL, dummy_work, ptr0);
 	pthread_create(&(threads[1]), NULL, dummy_write, ptr1);
-	// pthread_create(&(threads[2]), NULL, dummy_read, ptr2);
-	// pthread_create(&(threads[3]), NULL, dummy_sort, ptr3);
-
-	// for(int i = 0 ; i < NUM_TASKS ; i ++){
-		pthread_join(threads[1], NULL);
-	// }
-
-	end = time(NULL);
-	// double result = (double)(end-start)*100;
-	// std::cout << result << "(ms) elapsed" << std::endl;
-
+	
+	pthread_join(threads[1], NULL);
 
 	return 0;
 }
