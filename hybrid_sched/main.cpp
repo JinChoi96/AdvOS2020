@@ -6,12 +6,13 @@
 #include <string>
 #include <iostream>
 #include <fstream>
+#include <time.h>
 
 #define ITERATION 10000
 #define DATA_SIZE 2048
 #define NUM_TASKS 4
 
-int HYBRID = 1;
+int HYBRID = 0;
 
 std::array<__u64, NUM_TASKS> runtimes = {10, 10, 10, 10};
 std::array<__u64, NUM_TASKS> deadlines = {30, 30, 30, 30};
@@ -57,22 +58,29 @@ if(HYBRID){
 }
 	
 	// check current time
-	
+	time_t start, end;
+
 	// main 
 	void *ptr0, *ptr1, *ptr2, *ptr3;
 	ptr0 = &tasks[0]; ptr1 = &tasks[1]; ptr2 = &tasks[2]; ptr3 = &tasks[3];
+
+	start = time(NULL);
 
 	pthread_create(&(threads[0]), NULL, dummy_work, ptr0);
 	pthread_create(&(threads[1]), NULL, dummy_write, ptr1);
 	pthread_create(&(threads[2]), NULL, dummy_read, ptr2);
 	pthread_create(&(threads[3]), NULL, dummy_sort, ptr3);
 
-	
 	for(int i = 0 ; i < NUM_TASKS ; i ++){
 		pthread_join(threads[i], NULL);
 	}
+
+	end = time(NULL);
+	double result = (double)(end-start)*100;
+	std::cout << result << "(ms) elapsed" << std::endl;
+
 	// uninitialize
-	
+
 if(HYBRID){
 	// free memory
 	char data[DATA_SIZE];
