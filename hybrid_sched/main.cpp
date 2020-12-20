@@ -32,9 +32,20 @@ int main (int argc, char **argv)
  	
 if(HYBRID){
 	char data[DATA_SIZE];
+	std::string line,text;
+   	std::ifstream in("dummytext.txt");
+   	while(std::getline(in, line))
+   	{
+    	   text += line + "\n";
+   	}
+
+	// TODO : change variable name of 'data'
+   	// const char* data = text.c_str();
+
 	// memory locking of tagged tasks
 	for (int i = 0; i < NUM_TASKS; i++){
 		if(tags[i] != 0){
+			// TODO : change parameter of memory_locking()
 			// tasks = plan.memory_locking(tasks[i], data, DATA_SIZE);
 		}
 	}
