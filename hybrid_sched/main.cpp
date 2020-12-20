@@ -1,4 +1,4 @@
-#inlude <pthread.h>
+#include <pthread.h>
 
 #include "include.h"
 #include "Task.h"
@@ -19,21 +19,33 @@ pthread_t t1, t2, t3, t4, t5;
 std::array<pthread_t, NUM_TASKS> threads = {t1, t2, t3, t4, t5};
 
 
-void initialize(std::vector<Task> tasks);
-void parse_tags(string tags, std::vector<Task> tasks);
+void initialize(std::vector<Task> tasks, std::string tags);
+void parse_tags(std::string tags, std::vector<Task> tasks);
 
 int main (int argc, char **argv)
 {
 	std::vector<Task> tasks;
 	Plan plan;
  	// create tasks and set parameters
-	std::string tags = "example_tasks"
+	std::string tags = "example_tasks";
  	initialize(tasks, tags);
  	
 if(HYBRID){
-	// memory locking of tagged tasks
 	char data[DATA_SIZE];
-	tasks = plan.memory_locking(tasks, data, DATA_SIZE);
+	std::string line,text;
+   	std::ifstream in("dummytext.txt");
+   	while(std::getline(in, line))
+   	{
+    	   text += line + "\n";
+   	}
+   	const char* data = text.c_str();
+	// memory locking of tagged tasks
+	for (int i = 0; i < NUM_TASKS; i++){
+		if(tags[i] != 0){
+			tasks = plan.memory_locking(tasks[i], data, DATA_SIZE);
+		}
+	}
+	
 	// set affinity 
 	tasks = plan.set_affinity(tasks);
 }
@@ -42,7 +54,7 @@ if(HYBRID){
 	
 	// main 
 	for(int i = 0; i < NUM_TASKS ; i ++){
-		pthread_create(&(threads[i]), NULL, tasks[i].thread_function, NULL);
+		pthread_create(&(threads[i]), NULL, tasks[i].thread_function(), NULL);
 	}
 	
 	for(int i = 0 ; i < NUM_TASKS ; i ++){
@@ -59,7 +71,7 @@ if(HYBRID){
 	return 0;
 }
 
-void initialize(std::vector<Task> tasks, string tags)
+void initialize(std::vector<Task> tasks, std::string tags)
 {
 	struct sched_attr attr;
 
@@ -73,7 +85,7 @@ void initialize(std::vector<Task> tasks, string tags)
 		attr.sched_runtime = runtimes[i] * 1000 * 1000;
 		attr.sched_period = attr.sched_deadline = deadlines[i] * 1000 * 1000;
 
-		tasks.push_back(Task::Task(attr));
+		tasks.push_back(Task(attr));
 	}
 	// parse each task's tag and set tag to the task
 	parse_tags(tags, tasks);
@@ -81,7 +93,7 @@ void initialize(std::vector<Task> tasks, string tags)
 	return;
 }
 
-void parse_tags(string tags, std::vector<Task> tasks){
+void parse_tags(std::string tags, std::vector<Task> tasks){
     std::ifstream in(tags);
 	std::string line;
 	int thread_id;
