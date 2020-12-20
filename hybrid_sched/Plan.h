@@ -14,7 +14,7 @@ public:
 
     std::vector<Task> get_migration_cost(std::vector<Task> tasks);
     std::vector<Task> set_affinity(std::vector<Task> *tasks);
-    std::vector<Task> memory_locking(Task *addr, size_t size);
+    void memory_locking(char *addr, size_t size);
     std::vector<Task> memory_unlocking(std::vector<Task> *tasks, char *addr, size_t size);
 };
 #endif

@@ -25,18 +25,18 @@ void read_tasks(std::vector<Task> *tasks);
 int main (int argc, char **argv)
 {
 	std::vector<Task> tasks;
+	char data[DATA_SIZE];
 	Plan plan;
  	// create tasks and set parameters
 	std::string tags = "task.txt";
  	initialize(&tasks, tags);
 	// read_tasks(&tasks);
  	
-if(HYBRID){
-	
+if(HYBRID){	
 	// memory locking of tagged tasks
 	for (int i = 0; i < NUM_TASKS; i++){
-		if(tags[i] != 0){
-			tasks = plan.memory_locking(&tasks[i], DATA_SIZE);
+		if(tasks[i].get_tag() != 0){
+			plan.memory_locking(data, DATA_SIZE);
 		}
 	}
 	
@@ -54,9 +54,9 @@ if(HYBRID){
 	start = time(NULL);
 
 	pthread_create(&(threads[0]), NULL, dummy_work, ptr0);
-	pthread_create(&(threads[1]), NULL, dummy_write, ptr1);
-	pthread_create(&(threads[2]), NULL, dummy_read, ptr2);
-	pthread_create(&(threads[3]), NULL, dummy_sort, ptr3);
+	// pthread_create(&(threads[1]), NULL, dummy_write, ptr1);
+	// pthread_create(&(threads[2]), NULL, dummy_read, ptr2);
+	// pthread_create(&(threads[3]), NULL, dummy_sort, ptr3);
 
 	for(int i = 0 ; i < NUM_TASKS ; i ++){
 		pthread_join(threads[i], NULL);

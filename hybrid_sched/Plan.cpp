@@ -26,7 +26,7 @@ std::vector<Task> Plan::get_migration_cost(std::vector<Task> tasks)
 
 }
 
-std::vector<Task> Plan::memory_locking(Task *addr, size_t size)
+void Plan::memory_locking(char *addr, size_t size)
 {
 
     unsigned long page_offset, page_size;
